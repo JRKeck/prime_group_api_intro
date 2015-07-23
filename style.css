@@ -1,0 +1,13 @@
+h3 {
+	font-size: 19px;
+
+}
+.game {
+	height: 200px;
+	margin: 15px;
+	border: 1px solid #999;
+	text-align: center;
+}
+.pages {
+	display: none;
+}

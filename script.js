@@ -8,11 +8,13 @@ function searchCallback(results) {
 }
 
 $(document).ready(function() {
-
+console.log("Doc is ready");
 	// Start the search here!
 	$('body').submit('#searchForm', function(event) {
-	    $('.search-results').children().remove();
-	    $('.search-results').append('<div class="page-1"></div>')
+	    //$('.search-results').children().remove();
+	    $('.search-results').prepend('<div class="pages page-1">page 1</div>');
+	    $('.page-1').show();	    
+	    $('.pagination').prepend('<li><a href="#" data-page-number="1">1</a></li>');
 	    // get all the inputs into an array.
 	    event.preventDefault();
 	    console.log("Button Was Clicked");
@@ -25,8 +27,15 @@ $(document).ready(function() {
 	    // $inputs.each(function() {
 	    //     values[this.name] = $(this).val();
 	    // });
-		results = search(query);
+		results = search(query)
 		
+	});
+	$('.pagination').on('click', 'a', function() {
+		var getPageClick = $(this).text();
+		console.log(this);
+		console.log("pagenumber is: "+getPageClick);
+		$('.pages').hide();
+		$('.page-'+ getPageClick).show();
 	});
 
 
@@ -42,12 +51,14 @@ function displayResults(resultsVar) {
 		if (resultsCounter > 10) {
 			pageNum++;
 			$('.search-results').append('<div class="page-'+ pageNum +'"></div>')
+			$('.pagination').append('<li><a href="#" data-page-number="'+ pageNum +'">'+ pageNum +'</a></li>');
 			resultsCounter = 0;
 		};
 
-		$('.page-'+ pageNum).append('<div class="game col-sm-3" id="game-'+ resultsVar[i].id +'"></div>');
-		$('#game-'+ resultsVar[i].id).prepend("<h2 class='title'>" + resultsVar[i].name + "</h2>");
-		$('#game-'+ resultsVar[i].id).prepend('<img src="' + resultsVar[i].image.thumb_url +'" alt="Game Thumbnamil"'>);
+		$('.page-'+ pageNum).append('<div class="col-sm-3 col-xs-6"></div>');
+		$('#game-'+ resultsVar[i].id).prepend("<div id='game-'"+ resultsVar[i].id +" class='game'></div>");
+		$('#game-'+ resultsVar[i].id).prepend("<h3 class='title'>" + resultsVar[i].name + "</h3>");
+		$('#game-'+ resultsVar[i].id).append('<img class="img-responsive" src="' + resultsVar[i].image.thumb_url +'" alt="Game Thumbnamil">');
 	};
 	
 }
